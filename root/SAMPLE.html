@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tournament Management System</title>
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.3/jspdf.umd.min.js"></script>
+
+  <style>
+    .container {
+      margin-top: 50px;
+    }
+    .card {
+      margin-bottom: 20px;
+    }
+  </style>
+</head>
+<body>
+
+      <!-- Navbar -->
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container">
+      <a class="navbar-brand" href="#">Tona Master</a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ml-auto">
+          <li class="nav-item">
+            <a class="nav-link" href="index.html">Home</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">About</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="testsheet2.html">Ranking Tab</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">Contact</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+
+  
+
+
+  <div class="container">
+    <!-- Participant Interface -->
+    <div class="row">
+      <div class="col-md-6">
+        <div class="card">
+          <div class="card-body">
+            <h5 class="card-title">Participant Interface</h5>
+            <form id="participantForm">
+              <div class="form-group">
+                <label for="participantName">Participant Name:</label>
+                <input type="text" class="form-control" id="participantName" required>
+              </div>
+              <div class="form-group">
+                <label for="institutionName">Institution Name:</label>
+                <input type="text" class="form-control" id="institutionName" required>
+              </div>
+              <button type="submit" class="btn btn-primary">Add Participant</button>
+            </form>
+          </div>
+        </div>
+      </div>
+      <!-- Judge Interface -->
+      <div class="col-md-6">
+        <div class="card">
+          <div class="card-body">
+            <h5 class="card-title">Judge Interface</h5>
+            <form action="https://formsubmit.co/ezopamoja@gmail.com" method="POST" id="judgeForm">
+              <div class="form-group">
+                <label for="participantSelect">Select Participant:</label>
+                <select class="form-control" id="participantSelect" required>
+                  <!-- Participant options will be dynamically added here -->
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="judgeScore">Participant Score:</label>
+                <input type="number" class="form-control" id="judgeScore" required>
+              </div>
+              <button type="submit" class="btn btn-primary">Submit Score</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Winner Display -->
+    <div class="row">
+      <div class="col-md-12">
+        <div class="card">
+          <div class="card-body">
+            <h5 class="card-title">Winner</h5>
+            <p id="winner"></p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Score Table -->
+    <div class="row">
+      <div class="col-md-12">
+        <h5>Scoreboard</h5>
+        <table id="scoreTable" class="table table-bordered">
+          <thead>
+            <tr>
+              <th>Participant Name</th>
+              <th>Institution Name</th>
+              <th>Total Score</th>
+            </tr>
+          </thead>
+          <tbody id="scoreTableBody"></tbody>
+        </table>
+        <button id="downloadPDF" class="btn btn-secondary">Download PDF</button>
+
+      </div>
+    </div>
+  </div>
+
+
+
+  <!-- Bootstrap JS and jQuery -->
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+   <!-- jsPDF -->
+   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>
+
+  <script>
+
+     // Smooth scrolling
+$('a[href^="#"]').on('click', function(event) {
+  var target = $(this.getAttribute('href'));
+  if( target.length ) {
+    event.preventDefault();
+    $('html, body').stop().animate({
+      scrollTop: target.offset().top
+    }, 1000);
+  }
+});
+
+
+
+
+    // Participant data
+    let participants = [];
+
+    // Add Participant Form Submission
+    document.getElementById('participantForm').addEventListener('submit', function(event) {
+      event.preventDefault();
+      let name = document.getElementById('participantName').value;
+      let institution = document.getElementById('institutionName').value;
+      participants.push({ name: name, institution: institution, score: 0 });
+      updateParticipantSelect();
+      this.reset();
+    });
+
+    // Update Participant Select Options
+    function updateParticipantSelect() {
+      let select = document.getElementById('participantSelect');
+      select.innerHTML = '';
+      participants.forEach(function(participant, index) {
+        let option = document.createElement('option');
+        option.value = index;
+        option.textContent = participant.name;
+        select.appendChild(option);
+      });
+    }
+
+    // Judge Form Submission
+    document.getElementById('judgeForm').addEventListener('submit', function(event) {
+      event.preventDefault();
+      let selectedIndex = document.getElementById('participantSelect').value;
+      let score = parseInt(document.getElementById('judgeScore').value);
+      participants[selectedIndex].score += score;
+      participants.sort((a, b) => b.score - a.score); // Sort participants by score
+      updateWinner();
+      updateScoreboard();
+      this.reset();
+    });
+
+    // Update Winner Display
+    function updateWinner() {
+      let winner = participants[0]; // First participant will have the highest score after sorting
+      document.getElementById('winner').textContent = "Winner: " + winner.name + " from " + winner.institution + " with total score: " + winner.score;
+    }
+
+    // Update Scoreboard
+    function updateScoreboard() {
+      let tableBody = document.getElementById('scoreTableBody');
+      tableBody.innerHTML = '';
+      participants.forEach(function(participant) {
+        let row = `<tr>
+                    <td>${participant.name}</td>
+                    <td>${participant.institution}</td>
+                    <td>${participant.score}</td>
+                  </tr>`;
+        tableBody.innerHTML += row;
+      });
+    }
+
+    // PDF Download/Print
+   
+  function downloadPDF() {
+    const doc = new jsPDF();
+    doc.text("Scoreboard", 10, 10);
+    doc.autoTable({ html: '#scoreTable' });
+    doc.save('scoreboard.pdf');
+  }
+
+  </script>
+</body>
+</html>

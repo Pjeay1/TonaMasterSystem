@@ -1,0 +1,122 @@
+<!-- Judge Interface (judge.html) -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tournament Management System - Judge Interface</title>
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <style>
+    .container {
+      margin-top: 50px;
+    }
+    .card {
+      margin-bottom: 20px;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+    th, td {
+      border: 1px solid #ddd;
+      padding: 8px;
+      text-align: left;
+    }
+    th {
+      background-color: #f2f2f2;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="card">
+      <div class="card-body">
+        <h5 class="card-title">Judge Interface</h5>
+        <form id="judgeForm">
+          <div class="form-group">
+            <label for="participantSelect">Select Participant:</label>
+            <select class="form-control" id="participantSelect" required>
+              <!-- Participant options will be dynamically added here -->
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="judgeScore">Participant Score:</label>
+            <input type="number" class="form-control" id="judgeScore" required>
+          </div>
+          <button type="submit" class="btn btn-primary">Submit Score</button>
+        </form>
+      </div>
+    </div>
+
+    <!-- Scores Display -->
+    <div class="row">
+      <div class="col-md-12">
+        <h5>Scores</h5>
+        <table id="scoresTable">
+          <thead>
+            <tr>
+              <th>Participant Name</th>
+              <th>Institution</th>
+              <th>Score</th>
+            </tr>
+          </thead>
+          <tbody>
+            <!-- Participant scores will be dynamically added here -->
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- Bootstrap JS and jQuery -->
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+  <script>
+    // Retrieve participant data from localStorage
+    let participants = JSON.parse(localStorage.getItem('participants')) || [];
+
+    // Populate Participant Select Options
+    function populateParticipantSelect() {
+      let select = document.getElementById('participantSelect');
+      select.innerHTML = '';
+      participants.forEach(function(participant, index) {
+        let option = document.createElement('option');
+        option.value = index;
+        option.textContent = participant.name;
+        select.appendChild(option);
+      });
+    }
+
+    // Update Scores Table
+    function updateScoresTable() {
+      let tableBody = document.getElementById('scoresTable').getElementsByTagName('tbody')[0];
+      tableBody.innerHTML = '';
+      participants.forEach(function(participant) {
+        let row = tableBody.insertRow();
+        let nameCell = row.insertCell(0);
+        let institutionCell = row.insertCell(1);
+        let scoreCell = row.insertCell(2);
+        nameCell.textContent = participant.name;
+        institutionCell.textContent = participant.institution;
+        scoreCell.textContent = participant.score;
+      });
+    }
+
+
+
+
+
+// Judge Interface (Page 2)
+document.addEventListener("DOMContentLoaded", function() {
+  var participantData = JSON.parse(localStorage.getItem("participantData"));
+  if (participantData) {
+    // Fill participant data into judge interface
+    document.getElementById("participantName").value = participantData.name;
+    document.getElementById("institutionName").value = participantData.institution;
+  }
+});
+
+</script>

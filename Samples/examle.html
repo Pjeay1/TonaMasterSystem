@@ -1,0 +1,29 @@
+<!-- Page 1 -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Page 1</title>
+  <!-- Bootstrap CSS -->
+  <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+
+  <div class="container">
+    <h1>Page 1</h1>
+    <input type="text" id="dataInput" class="form-control" placeholder="Enter data">
+    <button id="transferBtn" class="btn btn-primary">Transfer Data</button>
+  </div>
+
+  <!-- JavaScript -->
+  <script>
+    document.getElementById("transferBtn").addEventListener("click", function() {
+      var data = document.getElementById("dataInput").value;
+      localStorage.setItem("transferData", data); // Store data in local storage
+      window.location.href = "page2.html"; // Redirect to page 2
+    });
+  </script>
+
+</body>
+</html>

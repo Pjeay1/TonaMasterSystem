@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Table Editable Example</title>
+  <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    /* Add custom styles here */
+
+     
+  </style>
+</head>
+<body>
+
+<div class="container mt-5">
+  <h2 style="background-image: url(images/Kupaa\ image.jpg);">KUPAA SYLLABUS</h2>
+  <table id="infoTable" class="table">
+    <thead>
+      <tr>
+        <th>CLASS CODE</th>
+        <th>ITEM NAME</th>
+        <th>DESCRIPTION</th>
+        <th>SIZE OF GROUP</th>
+        <th>DURATION</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a href="#" onclick="openNewPage()">MUU-001</a></td>
+        <td>KUPAA Infomercials</td>
+        <td>A live music presentation of KUPAA music featuring KUPAA objectives, moto, vision and achievement</td>
+        <td>S</td>
+        <td>Not exceeding 1 minute</td>
+      </tr>
+
+      <tr>
+        
+        <td><a href="#" onclick="openNewPage()">MUU-002 A</a></td>
+        <td>Kenya National Anthem </td>
+        <td> Kiswahili rendition of
+            the anthem based on the
+            official SATB harmony
+            without instrumental
+            accompaniment
+             </td>
+        <td>S</td>
+        <td>Standard to the set piece </td>
+      </tr>
+
+      <tr>
+        
+        <td><a href="#" onclick="openNewPage()">MUU-002 B </a></td>
+        <td> Kenya
+            National
+            Anthem</td>
+        <td>
+            Instrumental
+            presentation based on
+            the official prescribed
+            score.
+           
+           </td>
+        <td> Open</td>
+        <td> Standard to the
+            set piece</td>
+      </tr>
+
+      <tr>
+        
+        <td><a href="#" onclick="openNewPage()">MUU-003 A</a></td>
+        <td>
+            East African
+            Anthem</td>
+        <td>Kiswahili rendition of
+            the anthem based on the
+            official SATB harmony
+            without instrumental
+            accompaniment</td>
+        <td>S</td>
+        <td>Standard to the
+            set piece
+            </td>
+      </tr>
+
+    </tbody>
+  </table>
+</div>
+
+<script>
+  function openNewPage() {
+    // Redirect to a new page when CLASS CODE is clicked
+    window.open('new_page.html', '_blank');
+  }
+</script>
+
+</body>
+</html>

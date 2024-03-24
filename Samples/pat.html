@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Participant Registration</title>
+  <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    /* Add custom styles here */
+  </style>
+</head>
+<body>
+
+<div class="container mt-5">
+  <h2>Participant Registration</h2>
+  
+  <!-- Participant Registration Form -->
+  <form id="participantForm">
+    <div class="form-group">
+      <label for="classCode">Class Code:</label>
+      <input type="text" class="form-control" id="classCode" readonly>
+    </div>
+    <div class="form-group">
+      <label for="itemName">Item Name:</label>
+      <input type="text" class="form-control" id="itemName" placeholder="Enter Item Name" required>
+    </div>
+    <div class="form-group">
+      <label for="description">Description:</label>
+      <textarea class="form-control" id="description" placeholder="Enter Description" required></textarea>
+    </div>
+    <div class="form-group">
+      <label for="sizeOfGroup">Size of Group:</label>
+      <input type="text" class="form-control" id="sizeOfGroup" placeholder="Enter Size of Group" required>
+    </div>
+    <div class="form-group">
+      <label for="duration">Duration:</label>
+      <input type="text" class="form-control" id="duration" placeholder="Enter Duration" required>
+    </div>
+    <button type="submit" class="btn btn-primary">Submit</button>
+  </form>
+  
+  <hr>
+  
+  <!-- Participant Table -->
+  <table id="participantTable" class="table">
+    <thead>
+      <tr>
+        <th>Class Code</th>
+        <th>Item Name</th>
+        <th>Description</th>
+        <th>Size of Group</th>
+        <th>Duration</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a href="#" class="classCodeLink">MUU-001</a></td>
+        <td>KUPAA Infomercials</td>
+        <td>A live music presentation of KUPAA music featuring KUPAA objectives, moto, vision and achievement</td>
+        <td>S</td>
+        <td>Not exceeding 1 minute</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<script>
+  // Populate form fields when Class Code is clicked
+  document.querySelectorAll('.classCodeLink').forEach(link => {
+    link.addEventListener('click', function(event) {
+      event.preventDefault();
+      const row = this.closest('tr');
+      document.getElementById('classCode').value = row.cells[0].innerText;
+      document.getElementById('itemName').value = row.cells[1].innerText;
+      document.getElementById('description').value = row.cells[2].innerText;
+      document.getElementById('sizeOfGroup').value = row.cells[3].innerText;
+      document.getElementById('duration').value = row.cells[4].innerText;
+    });
+  });
+
+  // Form submission handler
+  document.getElementById('participantForm').addEventListener('submit', function(event) {
+    event.preventDefault();
+    const classCode = document.getElementById('classCode').value;
+    const itemName = document.getElementById('itemName').value;
+    const description = document.getElementById('description').value;
+    const sizeOfGroup = document.getElementById('sizeOfGroup').value;
+    const duration = document.getElementById('duration').value;
+    
+    // Add participant to table
+    const table = document.getElementById('participantTable').getElementsByTagName('tbody')[0];
+    const newRow = table.insertRow();
+    newRow.innerHTML = `
+      <td><a href="#" class="classCodeLink">${classCode}</a></td>
+      <td>${itemName}</td>
+      <td>${description}</td>
+      <td>${sizeOfGroup}</td>
+      <td>${duration}</td>
+    `;
+    
+    // Clear form fields
+    document.getElementById('itemName').value = '';
+    document.getElementById('description').value = '';
+    document.getElementById('sizeOfGroup').value = '';
+    document.getElementById('duration').value = '';
+  });
+</script>
+
+</body>
+</html>

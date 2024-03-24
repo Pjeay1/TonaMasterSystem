@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tournament Management System</title>
+    <!-- Include Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <!-- Include your custom CSS (if any) -->
+    <style>
+        /* Your custom styles go here */
+    </style>
+</head>
+<body>
+    <div class="container mt-5">
+        <h1>Tournament Management System</h1>
+        <!-- Participant Interface -->
+        <div class="row">
+            <div class="col-md-6">
+                <h2>Participant Interface</h2>
+                <!-- Form to enter participant scores -->
+                <form id="participantForm">
+                    <div class="form-group">
+                        <label for="participantName">Participant Name:</label>
+                        <input type="text" class="form-control" id="participantName" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="participantScore">Participant Score:</label>
+                        <input type="number" class="form-control" id="participantScore" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="participantName">Participant Name:</label>
+                        <input type="text" class="form-control" id="participantName" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="participantScore">Participant Score:</label>
+                        <input type="number" class="form-control" id="participantScore" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Submit Score</button>
+                </form>
+            </div>
+        </div>
+        <!-- Judge Interface -->
+        <div class="row mt-5">
+            <div class="col-md-6">
+                <h2>Judge Interface</h2>
+                <!-- Display winner based on highest points -->
+                <div id="winnerDisplay"></div>
+            </div>
+        </div>
+    </div>
+
+
+    
+
+    <!-- Include Bootstrap JS and your custom JavaScript -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script>
+        // JavaScript logic
+        const participantForm = document.getElementById('participantForm');
+        const winnerDisplay = document.getElementById('winnerDisplay');
+        const participants = [];
+
+        participantForm.addEventListener('submit', function (e) {
+            e.preventDefault();
+            const participantName = document.getElementById('participantName').value;
+            const participantScore = parseInt(document.getElementById('participantScore').value);
+            participants.push({ name: participantName, score: participantScore });
+            displayWinner();
+        });
+
+        function displayWinner() {
+            const highestScore = Math.max(...participants.map(p => p.score));
+            const winners = participants.filter(p => p.score === highestScore);
+            if (winners.length === 1) {
+                winnerDisplay.innerHTML = `<p>Winner: ${winners[0].name} (${winners[0].score} points)</p>`;
+            } else {
+                winnerDisplay.innerHTML = `<p>It's a tie between:</p>`;
+                winners.forEach(w => {
+                    winnerDisplay.innerHTML += `<p>${w.name} (${w.score} points)</p>`;
+                });
+            }
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,86 @@
+<!-- Participant Interface (page1.html) -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tournament Management System - Participant Interface</title>
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <style>
+    .container {
+      margin-top: 50px;
+    }
+    .card {
+      margin-bottom: 20px;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+    th, td {
+      border: 1px solid #ddd;
+      padding: 8px;
+      text-align: left;
+    }
+    th {
+      background-color: #f2f2f2;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="card">
+      <div class="card-body">
+        <h5 class="card-title">Participant Interface</h5>
+        <form id="participantForm">
+          <div class="form-group">
+            <label for="participantName">Participant Name:</label>
+            <input type="text" class="form-control" id="participantName" required>
+          </div>
+          <div class="form-group">
+            <label for="institutionName">Institution Name:</label>
+            <input type="text" class="form-control" id="institutionName" required>
+          </div>
+          <button type="submit" class="btn btn-primary">Add Participant</button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- Bootstrap JS and jQuery -->
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+  <script>
+    // Participant data
+    let participants = [];
+
+    // Add Participant Form Submission
+    document.getElementById('participantForm').addEventListener('submit', function(event) {
+      event.preventDefault();
+      let name = document.getElementById('participantName').value;
+      let institution = document.getElementById('institutionName').value;
+      participants.push({ name: name, institution: institution, score: 0 });
+      updateScoresTable();
+      this.reset();
+    });
+
+    // Update Scores Table
+    function updateScoresTable() {
+      let tableBody = document.getElementById('scoresTable').getElementsByTagName('tbody')[0];
+      tableBody.innerHTML = '';
+      participants.forEach(function(participant) {
+        let row = tableBody.insertRow();
+        let nameCell = row.insertCell(0);
+        let institutionCell = row.insertCell(1);
+        let scoreCell = row.insertCell(2);
+        nameCell.textContent = participant.name;
+        institutionCell.textContent = participant.institution;
+        scoreCell.textContent = participant.score;
+      });
+    }
+  </script>
+</body>
+</html>
